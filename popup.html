@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      width: 360px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 13px;
+      color: #333;
+      padding: 16px;
+    }
+    h2 {
+      font-size: 15px;
+      margin-bottom: 12px;
+      color: #1a1a1a;
+    }
+    .subtitle {
+      font-size: 11px;
+      color: #888;
+      margin-bottom: 16px;
+    }
+    textarea {
+      width: 100%;
+      height: 120px;
+      font-family: "SF Mono", Monaco, monospace;
+      font-size: 11px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 8px;
+      resize: vertical;
+      margin-bottom: 8px;
+    }
+    textarea:focus { outline-color: #2563eb; }
+    .btn {
+      display: inline-block;
+      padding: 6px 14px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .btn-primary {
+      background: #2563eb;
+      color: #fff;
+      width: 100%;
+    }
+    .btn-primary:hover { background: #1d4ed8; }
+    .btn-primary:disabled { background: #94a3b8; cursor: default; }
+    .btn-secondary {
+      background: #f1f5f9;
+      color: #475569;
+      border: 1px solid #cbd5e1;
+    }
+    .btn-secondary:hover { background: #e2e8f0; }
+    .btn-danger {
+      background: #ef4444;
+      color: #fff;
+    }
+    .btn-danger:hover { background: #dc2626; }
+    .btn-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .error {
+      color: #ef4444;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+    .summary {
+      background: #f0f9ff;
+      border: 1px solid #bae6fd;
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .summary h3 {
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+    .summary .stat {
+      font-size: 22px;
+      font-weight: 700;
+      color: #2563eb;
+    }
+    .division-list {
+      list-style: none;
+      margin-top: 12px;
+    }
+    .division-list li {
+      padding: 6px 0;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .division-list li:last-child { border-bottom: none; }
+    .division-name { font-weight: 500; }
+    .division-count { color: #666; font-size: 12px; }
+    .check { color: #22c55e; font-weight: bold; }
+    .stats-row {
+      display: flex;
+      gap: 16px;
+      margin-top: 12px;
+      font-size: 12px;
+      color: #666;
+    }
+    .stats-row span { font-weight: 600; color: #333; }
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 12px 0;
+      color: #94a3b8;
+      font-size: 11px;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .divider::before { margin-right: 8px; }
+    .divider::after { margin-left: 8px; }
+    .paste-section { display: none; }
+    .paste-toggle {
+      background: none;
+      border: none;
+      color: #64748b;
+      font-size: 11px;
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 0;
+    }
+    .paste-toggle:hover { color: #334155; }
+  </style>
+</head>
+<body>
+  <div id="load-view">
+    <h2>RaceApp MileSplit Entry</h2>
+    <p class="subtitle">Import entries from your RaceApp event planner</p>
+    <button id="scrape-btn" class="btn btn-primary">Scrape from RaceApp Tab</button>
+    <div class="divider">or</div>
+    <button class="paste-toggle" id="paste-toggle">Paste JSON manually</button>
+    <div class="paste-section" id="paste-section">
+      <textarea id="json-input" placeholder='{"meet_name": "...", "divisions": {...}}'></textarea>
+      <button id="load-btn" class="btn btn-secondary" style="width:100%;">Load JSON</button>
+    </div>
+    <div id="load-error" class="error" style="display:none;"></div>
+  </div>
+
+  <div id="plan-view" style="display:none;">
+    <h2 id="meet-name"></h2>
+    <div class="summary">
+      <h3>Entries</h3>
+      <span class="stat" id="total-entries">0</span>
+      <span> across </span>
+      <span class="stat" id="total-divisions">0</span>
+      <span> divisions</span>
+    </div>
+    <ul id="division-list" class="division-list"></ul>
+    <div class="stats-row">
+      <div>Checked: <span id="stat-checked">0</span></div>
+      <div>Not found: <span id="stat-not-found">0</span></div>
+    </div>
+    <div class="btn-row" style="margin-top: 16px;">
+      <button id="copy-json-btn" class="btn btn-secondary">Copy JSON</button>
+      <button id="clear-btn" class="btn btn-danger">Clear Plan</button>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

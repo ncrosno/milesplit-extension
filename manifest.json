@@ -1,0 +1,31 @@
+{
+  "manifest_version": 3,
+  "name": "RaceApp MileSplit Entry",
+  "version": "1.0.0",
+  "description": "Auto-fill MileSplit meet entries from RaceApp event planner data",
+  "permissions": ["storage", "activeTab", "scripting"],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "milesplit-entry@raceapp.net",
+      "strict_min_version": "109.0"
+    }
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.milesplit.com/meets/*/registration/sessions/*/events/*"
+      ],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}
